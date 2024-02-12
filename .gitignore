@@ -1,0 +1,10 @@
+.venv
+__pycache__
+
+/app/transcriptions/*/*.csv
+.env
+
+/app/models/*/*.pth
+/app/models/*/*.keras
+/app/models/*/*.h5
+/app/models/*/*.scikit*

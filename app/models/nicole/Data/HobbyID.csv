@@ -1,0 +1,136 @@
+﻿name,hobbyId,genres
+Music,1,Music
+Slow songs or fast songs,2,"ballad, R&B, singer-songwriter"
+Dance,3,"electronic, house, techno"
+Folk,4,"traditional folk, contemporary folk, indie folk"
+Country,5,"country pop, outlaw country, bluegrass"
+Classical music,6,"orchestral, chamber, solo instrumental"
+Musical,7,"Broadway, West End, rock musical"
+Pop,8,"pop rock, teen pop, synthpop"
+Rock,9,"alternative rock, indie rock, classic rock, hard rock"
+Metal or Hardrock,10,"heavy metal, thrash metal, black metal"
+Punk,11,"punk rock, hardcore punk, pop punk"
+"Hiphop, Rap",12,"gangsta rap, conscious rap, old school hip-hop"
+"Reggae, Ska",13,"roots reggae, dancehall reggae"
+"Swing, Jazz",14,"swing jazz, big band, traditional jazz"
+Rock n roll,15,"early rock and roll, rockabilly, doo-wop"
+Alternative,16,"alternative rock, indie rock, grunge"
+Latino,17,"Latin pop, salsa, merengue"
+"Techno, Trance",18,"techno, trance, house"
+Opera,19,"opera, operetta"
+Movies,20,Movies
+Horror,21,Movies
+Thriller,22,Movies
+Comedy,23,Movies
+Romantic,24,Movies
+Sci-fi,25,Movies
+War,26,Movies
+Fantasy/Fairy tales,27,Movies
+Animated,28,Movies
+Documentary,29,Movies
+Western,30,"Traditional western, revisionist western, spaghetti western"
+Action,31,"Superhero, spy thriller, martial arts"
+History,32,Movies
+Psychology,33,Movies
+Politics,34,Movies
+Mathematics,35,"Educational, puzzle, logic"
+Physics,36,"Educational, science, documentary"
+Internet,37,"Technology, communication, information"
+PC,38,"Technology, gaming, business"
+Economy Management,39,"Business, finance, education"
+Biology,40,"Science, education, documentary"
+Chemistry,41,"Science, education, documentary"
+Reading,42,"Education, literature, leisure"
+Geography,43,"Education, travel, documentary"
+Foreign languages,44,"Education, communication, culture"
+Medicine,45,"Science, health, education"
+Law,46,"Education, business, crime"
+Cars,47,"Transportation, sports, leisure"
+Art exhibitions,48,"Visual arts, culture, leisure"
+Outdoors,49,"Adventure, travel, sports"
+Dancing,50,"Performing arts, fitness, leisure"
+Musical instruments,51,"Music, performing arts, education"
+Writing,52,"Creative writing, communication, education"
+Passive sport,53,"Sports, fitness, leisure"
+Active sport,54,"Sports, fitness, competition"
+Gardening,55,"Leisure, nature, hobby"
+Celebrities,56,"Entertainment, gossip, culture"
+Shopping,57,"Business, retail, leisure"
+Science and technology,58,"Sci-fi, fantasy, fiction"
+Theatre,59,"Performing arts, drama, culture"
+Fun with friends,60,"Social, leisure, activity"
+Adrenaline sports,61,"Adventure, sports, excitement"
+Pets,62,"Animals, companionship, leisure"
+Painting,63,Creative
+Sculpting,64,Creative
+Pottery,65,Creative
+Calligraphy,66,Creative
+Origami,67,Creative
+Graphic Design,68,Creative
+Creative Writing,69,Creative
+Poetry,70,Creative
+Film Making,71,Creative
+Digital Art,72,Creative
+Archery,73,outdoor
+Bird Watching,74,outdoor
+Kayaking,75,outdoor
+Fishing,76,outdoor
+Camping,77,outdoor
+Coin Collecting,78,collecting
+Antique Hunting,79,collecting
+Vinyl Record Collecting,80,collecting
+Comic Book Collecting,81,collecting
+Vintage Car Collecting,82,collecting
+Postcard Collecting,83,collecting
+Action Figure Collecting,84,collecting
+Gemstone Collecting,85,collecting
+Plant Collecting,86,collecting
+Chess,87,"Puzzle, educational"
+Puzzle Solving,88,"Puzzle, educational"
+Learning a New Language,89,Educational
+Model Building,90,"Educational, DIY"
+Pilates,91,Fitness
+Rollerblading,92,Fitness
+Skateboarding,93,Fitness
+Baking,94,"Cooking, food"
+Home Brewing,95,"Cooking, food"
+Wine Tasting,96,"Cooking, food"
+Fermentation,97,"Cooking, food"
+Cheese Making,98,"Cooking, food"
+Chocolate Making,99,"Cooking, food"
+Food Photography,100,"Cooking, food"
+Cake Decorating,101,"Cooking, food"
+Karaoke,102,"Social, music"
+Role-Playing Games,103,Social
+Book Club,104,"Social, education"
+Cooking Classes,105,"Social, food, cooking"
+Drawing,106,Arts and craft
+Adult Coloring Books,107,Arts and craft
+Pottery,108,Arts and craft
+Quilting,109,Arts and craft
+Knitting,110,Arts and craft
+Crocheting,111,Arts and craft
+Scrapbooking,112,Arts and craft
+Origami,113,Arts and craft
+Collage Making,114,Arts and craft
+Poetry Writing,115,Educational
+Journaling,116,Educational
+Crossword Puzzles,117,Educational
+Sudoku,118,Educational
+Word Search,119,Educational
+Learning Calligraphy,120,Educational
+Podcast Listening,121,Music
+Nature Walks,122,"Nature, outdoors"
+Outdoor Picnics,123,"Nature, outdoors"
+Virtual Museum Tours,124,"Technology, history"
+Digital Art,125,"Technology, arts and crafts"
+Woodworking,126,Arts and craft
+Soap Making,127,Arts and craft
+Potpourri Crafting,128,Arts and craft
+Wood Carving,129,Arts and craft
+Finger Painting,130,Arts and craft
+Video Editing,131,Technology
+Online Chess or Card Games,132,Technology
+Visiting Childhood Places,133,Memory
+Reconnecting with Old Friends,134,Memory
+Organizing Family Reunions,135,Memory
