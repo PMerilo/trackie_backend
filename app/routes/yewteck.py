@@ -4,19 +4,18 @@ from PIL import Image
 import tempfile
 import logging
 import os
-from dotenv import load_dotenv
 import requests
+import urllib
+
 from app.models.yewteck.load_model import load_action_model
+import requests
+import shutil
+
 
 # Initialize logging
-logging.basicConfig(level=logging.INFO)
+# logging.basicConfig(level=logging.INFO)
 yewteck = Blueprint('yewteck', __name__, url_prefix='/yewteck')
-load_dotenv()
-
-# Load the trained machine learning model
 model = load_action_model()
-# logging.info(model.summary())
-
 
 # Define the action labels
 ACTIONS = [
@@ -25,7 +24,6 @@ ACTIONS = [
     'eating', 'fighting', 'listening_to_music', 'running', 'texting'
 ]
 
-# Function to read and preprocess the image
 def read_image(file_path):
     image = Image.open(file_path)
     image = image.resize((160, 160))
@@ -33,16 +31,24 @@ def read_image(file_path):
     img_array = np.expand_dims(img_array, axis=0)
     return img_array
 
-# Endpoint for action detection
-@yewteck.route('/detect-actions', methods=['POST'])
+
+@yewteck.route('/detect-actions', methods=['GET'])
 def detect_actions():
-    file = request.files['file']
-    filename = tempfile.mktemp(suffix='.jpg')
-    file.save(filename)
+    src = request.args.get("src")
+    file_path = os.path.join(tempfile.gettempdir(), 'predict.jpg')
+    # r = requests.get('http://localhost:1984/api/frame.jpeg?src=phone')
+    # if r.status_code == 200:
+    #     with open(file_path, 'wb') as f:
+    #         r.raw.decode_content = True
+    #         shutil.copyfileobj(r.raw, f)   
+    urllib.request.urlretrieve(f'{os.getenv("RTSP_SERVER_URL")}/api/frame.jpeg?src={src}', file_path)
+    # file = request.files['file']
+    # filename = tempfile.mktemp(suffix='.jpg')
+    # file.save(filename)
     
     try:
         # Process the image and predict the action
-        img_array = read_image(filename)
+        img_array = read_image(file_path)
 
         # Log the preprocessed image shape
         logging.info(f'Image shape: {img_array.shape}')
@@ -66,8 +72,8 @@ def detect_actions():
         return jsonify({'error': 'Error processing image'}), 500
     finally:
         # Clean up: remove the temporary file
-        if os.path.exists(filename):
-            os.remove(filename)
+        if os.path.exists(file_path):
+            os.remove(file_path)
 
 @yewteck.route('/chat', methods=['POST'])
 def chat():
@@ -78,13 +84,6 @@ def chat():
         'Authorization': f'Bearer {os.getenv("OPENAI_API_KEY")}',
         'Content-Type': 'application/json'
     }
-    # Make a POST request to the OpenAI API
-    response = requests.post(
-        'https://api.openai.com/v1/chat/completions',
-        headers=headers,
-        json=incoming_data
-    )
-
     try:
         response = requests.post(
             'https://api.openai.com/v1/chat/completions',

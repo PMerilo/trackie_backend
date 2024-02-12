@@ -1,5 +1,8 @@
 from flask import Flask, render_template, request, redirect, flash, url_for
+from dotenv import load_dotenv
 app = Flask(__name__)
+
+load_dotenv()
 
 from app.routes.perry import perry
 from app.routes.nicole import nicole
@@ -15,7 +18,3 @@ app.register_blueprint(yewteck)
 @app.route("/")
 def hello_world():
     return "<p>Hello, World!</p>"
-
-if __name__ == "__main__":
-    app.run(debug=True, port=80)
-

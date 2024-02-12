@@ -6,16 +6,13 @@ import signal
 import logging
 import sys
 from google.cloud import speech
-from google.cloud import language_v2
 
 path = os.path.dirname(__file__).split('/')
 path.pop()
 path = "/".join(path)
-print(path)
+# print(path)
 
 sys.path.insert(1, path)  
-
-from app.models.perry.predict import predict_bert, predict_svm
 
 class GracefulKiller:
     def __init__(self):
@@ -29,12 +26,22 @@ class GracefulKiller:
 
 
 # RTSP stream URL
-rtsp_stream_url = 'rtsp://localhost:8554/phone?video=all&audio=all'
-FOLDER = os.path.dirname(__file__) + '/debug/'
+FOLDER = os.path.dirname(__file__)
 
 client = speech.SpeechClient()
+
 # Capture the RTSP stream and save the audio to a .wav file
-def transcribing(model):
+def transcribing(src, model):
+    if model == "SVM":
+        from app.models.perry.predict import predict_svm
+    elif model == "BERT":
+        from app.models.perry.predict import predict_bert
+    elif model == "Google":
+        from app.models.perry.predict import sample_analyze_sentiment
+
+    folderPath = FOLDER + f'/{src or "debug"}/'
+    
+    rtsp_stream_url = f'rtsp://localhost:8554/{src}?video=all&audio=all'
     try:
         process = (
             ffmpeg
@@ -69,7 +76,9 @@ def transcribing(model):
         # Print the real-time transcriptions
         for response in responses:
             current_date = datetime.now().strftime("%d-%m-%Y")
-            with open(f'{FOLDER}\\{current_date}.csv', "a", newline='') as f:
+            filename = f'{folderPath}\\{current_date}.csv'
+            os.makedirs(os.path.dirname(filename), exist_ok=True)
+            with open(filename, "a", newline='') as f:
 
                 writer = csv.writer(f)
 
@@ -80,11 +89,11 @@ def transcribing(model):
                     # The alternatives are ordered from most likely to least.
                     for alternative in alternatives:
                         prediction = None
-                        if model == "svm":
+                        if model == "SVM":
                             prediction = predict_svm(alternative.transcript)
-                        if model == "bert":
+                        elif model == "BERT":
                             prediction = predict_bert(alternative.transcript)
-                        elif model == "google":
+                        elif model == "Google":
                             prediction = sample_analyze_sentiment(alternative.transcript)
                         row = [datetime.now().__str__(), alternative.transcript, prediction]
                         writer.writerow(row)
@@ -100,62 +109,15 @@ def transcribing(model):
         print("Stop by signal")
 
 
-def sample_analyze_sentiment(text_content: str = "I am so happy and joyful.") -> None:
-    """
-    Analyzes Sentiment in a string.
 
-    Args:
-      text_content: The text content to analyze.
-    """
 
-    client = language_v2.LanguageServiceClient()
-
-    # text_content = 'I am so happy and joyful.'
-
-    # Available types: PLAIN_TEXT, HTML
-    document_type_in_plain_text = language_v2.Document.Type.PLAIN_TEXT
-
-    # Optional. If not specified, the language is automatically detected.
-    # For list of supported languages:
-    # https://cloud.google.com/natural-language/docs/languages
-    language_code = "en"
-    document = {
-        "content": text_content,
-        "type_": document_type_in_plain_text,
-        "language_code": language_code,
-    }
-
-    # Available values: NONE, UTF8, UTF16, UTF32
-    # See https://cloud.google.com/natural-language/docs/reference/rest/v2/EncodingType.
-    encoding_type = language_v2.EncodingType.UTF8
-
-    response = client.analyze_sentiment(
-        request={"document": document, "encoding_type": encoding_type}
-    )
-    # Get overall sentiment of the input document
-    # print(f"Document sentiment score: {response.document_sentiment.score}")
-    # print(f"Document sentiment magnitude: {response.document_sentiment.magnitude}")
-    # Get sentiment for all sentences in the document
-    prediction = "Negative"
-    for sentence in response.sentences:
-        print(f"Using Google NLP API. S:{sentence.sentiment.score}, M:{sentence.sentiment.magnitude}")
-        if sentence.sentiment.score < -0.4 and sentence.sentiment.magnitude > 0.2:
-            prediction = "Positive"
-    #     print(f"Sentence text: {sentence.text.content}")
-    #     print(f"Sentence sentiment score: {sentence.sentiment.score}")
-    #     print(f"Sentence sentiment magnitude: {sentence.sentiment.magnitude}")
-
-    # Get the language of the text, which will be the same as
-    # the language specified in the request or, if not specified,
-    # the automatically-detected language.
-    # print(f"Language of the text: {response.language_code}")
-        
-    return prediction
-
-def start(model):
+def start(src, model):
     g = GracefulKiller()
-    logging.warning(f'start state : {g.kill_now}')
-    transcribing(model)
+    logging.warning(f'start state : {g.kill_now} src:{src} model:{model}')
+    transcribing(src, model)
     logging.warning(f'end state : {g.kill_now}')
 
-# start()
+if __name__ == "__main__":
+    src = sys.argv[1]
+    model = sys.argv[2]
+    start(src, model)

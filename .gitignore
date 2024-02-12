@@ -8,3 +8,5 @@ __pycache__
 /app/models/*/*.keras
 /app/models/*/*.h5
 /app/models/*/*.scikit*
+
+.npy

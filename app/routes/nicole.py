@@ -6,10 +6,12 @@ import csv
 import json
 import numpy as np
 import os
+from openai import OpenAI
 from app.models.nicole.load_model import getHobbiesFromIds, getUserHobbies, load_recommender_model
 from app import models
 
 MODEL_PATH = os.path.dirname(models.__file__)+"/nicole"
+client = OpenAI(api_key=os.environ.get("NIC_OPENAI_API_KEY"))
 
 nicole = Blueprint('nicole', __name__, url_prefix='/nicole')
 
@@ -87,7 +89,24 @@ def return_name():
     new = df['name']
             
     return new.to_json()
-    
+
+@nicole.route("/generate-steps", methods=['POST', 'GET'])
+def generate():
+    try:
+        # task = "painting"
+        task = request.get_json()
+    except:
+        return "failed to get API", 400
+    completion = client.chat.completions.create(
+    model="gpt-3.5-turbo-0125",
+    response_format={ "type": "json_object" },
+    messages=[
+        {"role": "system", "content": "You are an assistant that helps dementia patients to break down big tasks into smaller, more manageable steps, with around 6-8 steps, only give the steps and nothing else to output JSON, map each step to a number in JSON"},
+        {"role": "user", "content": "I want to try " + task}
+    ]
+    )
+
+    return completion.choices[0].message.content
 
 # @nicole.after_request
 # def after_request(response):
