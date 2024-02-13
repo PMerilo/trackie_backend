@@ -65,8 +65,10 @@ def get_transcripts(userId):
 @perry.route('/state', methods=['GET'])
 def get_state():
     global process, model
-    return jsonify({ "state": process is not None or process.poll() is not None, "model": model })
-
+    try: 
+        return jsonify({ "state": process is not None or process.poll() is not None, "model": model })
+    except: 
+        return jsonify({ "state": True, "model": '' })
 
 @perry.route('/start', methods=['POST'])
 def start_script():
